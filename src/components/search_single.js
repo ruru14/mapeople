@@ -22,6 +22,7 @@ const SearchSingle = () => {
     const [unionDetailInfo, setUnionDetailInfo] = React.useState([])
     
     const getOcid = (charName) => {
+        console.log(`${process.env.GATSBY_NEXON_API_BASE_URL}`)
         axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`id?character_name=`+charName, 
             {headers: {
                 "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
