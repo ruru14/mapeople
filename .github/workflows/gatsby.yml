@@ -51,9 +51,6 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
-          echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL}}" >> .env.production
-          echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY}}" >> .env.production
-          cat .env.production
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -81,6 +78,8 @@ jobs:
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
+          GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL}}
+          GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY}}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
