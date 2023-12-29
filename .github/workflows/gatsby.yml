@@ -51,6 +51,8 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+          echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL}}" >> .env.production
+          echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY}}" >> .env.production
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
