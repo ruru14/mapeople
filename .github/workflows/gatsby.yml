@@ -40,6 +40,7 @@ jobs:
     steps:
       - name: Generate Environment Variable File
         run: |
+          touch .env.production
           echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL }}" >> .env.production
           echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY }}" >> .env.production
       - name: Step One
