@@ -36,11 +36,11 @@ jobs:
     steps:
       - name: Generate Environment Variable File
         run: |
-          echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL}}">>.env.production
-          echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY}}">>.env.production
+          echo "GATSBY_NEXON_API_BASE_URL=$GATSBY_NEXON_API_BASE_URL" >> .env.production
+          echo "GATSBY_NEXON_API_KEY=$GATSBY_NEXON_API_KEY" >> .env.production
         env: 
-          GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL}}
-          GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY}}
+          GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL }}
+          GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY }}
       - name: Step One
         uses: actions/checkout@v2
       - name: Step Two
