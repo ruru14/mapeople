@@ -30,6 +30,17 @@ defaults:
     shell: bash
 
 jobs:
+  add-env:
+    name: Add Secret as Environment Variable
+    runs-on: ubuntu-latest
+    env:
+        GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL}}
+        GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY}}
+    steps:
+      - name: Step One
+        uses: actions/checkout@v2
+      - name: Step Two
+        run: env | sort
   # Build job
   build:
     runs-on: ubuntu-latest
@@ -78,8 +89,6 @@ jobs:
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
-          GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL}}
-          GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY}}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
