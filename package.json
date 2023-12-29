@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "mapeople",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "메이플스토리의 사람들을 위해",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "리부트@유이당",
   "dependencies": {
     "bootstrap": "^5.3.2",
     "dayjs": "^1.11.10",
