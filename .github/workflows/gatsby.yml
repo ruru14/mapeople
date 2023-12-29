@@ -38,14 +38,6 @@ jobs:
       GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL }}
       GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY }}
     steps:
-      - name: Generate Environment Variable File
-        run: |
-          touch .env.production
-          echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL }}" >> .env.production
-          echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY }}" >> .env.production
-          cat .env.production
-      - name: test
-        run: cat .env.proudction
       - name: Step One
         uses: actions/checkout@v2
       - name: Step Two
@@ -54,6 +46,9 @@ jobs:
   build:
     needs: add-env
     runs-on: ubuntu-latest
+    env:   
+      GATSBY_NEXON_API_BASE_URL: ${{ secrets.GATSBY_NEXON_API_BASE_URL }}
+      GATSBY_NEXON_API_KEY: ${{ secrets.GATSBY_NEXON_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -99,7 +94,11 @@ jobs:
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        run: |
+          touch .env.production
+          echo "GATSBY_NEXON_API_BASE_URL=${{ secrets.GATSBY_NEXON_API_BASE_URL }}" >> .env.production
+          echo "GATSBY_NEXON_API_KEY=${{ secrets.GATSBY_NEXON_API_KEY }}" >> .env.production
+          ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
