@@ -32,6 +32,7 @@ defaults:
 jobs:
   add-env:
     name: Add Secret as Environment Variable
+    environment: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Generate Environment Variable File
