@@ -48,6 +48,7 @@ jobs:
         run: env | sort
   # Build job
   build:
+    needs: add-env
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
