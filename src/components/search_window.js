@@ -16,7 +16,7 @@ const SearchWindow = ({ placeholder, value, onChange, onClick, selectList, selec
 
     return(
         <div className={styles.input}>
-            <Form>
+            <Form onSubmit={(e) => e.preventDefault()}>
                 <Row>
                 {selectVisible? 
                 <Col>
@@ -39,7 +39,7 @@ const SearchWindow = ({ placeholder, value, onChange, onClick, selectList, selec
                     />
                 </Col>
                 <Col xs="auto">
-                    <Button onClick={onClick} type="button">찾기</Button>
+                    <Button onClick={onClick} type="submit">찾기</Button>
                 </Col>
                 </Row>
             </Form>
