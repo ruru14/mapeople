@@ -393,8 +393,9 @@ const SearchGuild = () => {
                     {guildMemberBasicInfo? 
                         guildMemberBasicInfo.map((elm, idx)=>(
                             <CharacterSlotGuildResult key={elm} characterInfoGuild={elm} characterInfoOrigin={guildMemberOriginInfo[idx]}/>
-                        )): 
-                        '로딩 중'}
+                    )): 
+                    '로딩 중'}
+                    <br/><br/>
                 </div>
             }
         </div>

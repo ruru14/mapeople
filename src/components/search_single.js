@@ -179,7 +179,7 @@ const SearchSingle = () => {
                     {searchSuccess&&
                     <div>
                         <CharacterSlotBasic characterInfo={basicInfo}/>
-                        <div className={styles.output}>유니온 정보<br/><br/></div>
+                        <div className={styles.output}>{`[`}{searchText}{`]`}님의 유니온 조회 결과입니다.<br/><br/></div>
                         {unionDetailInfo? 
                             unionDetailInfo.map((elm, idx)=>(
                                 <CharacterSlotBasic key={elm} characterInfo={elm}/>
@@ -187,7 +187,7 @@ const SearchSingle = () => {
                             '로딩 중'}
                     </div>
                     }
-                    
+                    <br/><br/>
                 </div>
             }
         </div>
