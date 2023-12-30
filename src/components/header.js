@@ -10,8 +10,8 @@ const Header = ({ siteTitle }) => {
       <div className={styles.contents}>
         <nav className={styles.navigation}>
           <ul>
-            <li><Link href="/">일반</Link></li>
-            <li><Link href="/guild">길드</Link></li>
+            <li><Link href="../">일반</Link></li>
+            <li><Link href="../guild">길드</Link></li>
           </ul>
         </nav>
       </div>
