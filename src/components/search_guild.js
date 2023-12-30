@@ -21,6 +21,10 @@ const SearchGuild = () => {
     const [testGuildMember, setTestGuildMember] = React.useState([])
     const [testObj, setTestObj] = React.useState([])
 
+    const getDate = () => {
+        return dayjs().subtract(1, 'day').subtract(2, 'hour').format("YYYY-MM-DD")
+    }
+
     /*
     1. getOguildId : 길드 guid 조회 -> guid [1] 
     2. getGuildBasicInfo : 길드 정보 조회 (guid필요) -> 길드원 이름 배열 [1]
@@ -45,8 +49,7 @@ const SearchGuild = () => {
     }
 
     const getGuildBasicInfo = (oguildId) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`guild/basic?oguild_id=`+oguildId+`&date=`+formatDate, 
             {headers: {
                 "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
@@ -82,8 +85,7 @@ const SearchGuild = () => {
     // }
 
     const fukcingAPI = async (nameArr) =>{
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         for(let elm of nameArr){
             let flag = false
             let unionCharName
@@ -244,9 +246,7 @@ const SearchGuild = () => {
     }
 
     const getGuildMemberBasicInfo = (guildMemberOcid) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
-
+        const formatDate = getDate()
         Promise.allSettled(
             guildMemberOcid.map((elm)=>
                 axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`character/basic?ocid=`+elm.ocid+`&date=`+formatDate, 
@@ -273,9 +273,7 @@ const SearchGuild = () => {
     }
 
     const getGuildMemberUnionInfo = (guildMemberOcid) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
-
+        const formatDate = getDate()
         Promise.allSettled(
             guildMemberOcid.map((elm)=>axios.get(
                 `${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/union?ocid=`+elm.ocid+`&date=`+formatDate+`&world_name`+selectWorld, 
@@ -321,8 +319,7 @@ const SearchGuild = () => {
     }
 
     const getGuildMemberOriginInfo = (guildMemberOriginOcid) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         Promise.allSettled(
             guildMemberOriginOcid.map((elm)=>axios.get(
                 `${process.env.GATSBY_NEXON_API_BASE_URL}`+`character/basic?ocid=`+elm.ocid+`&date=`+formatDate, 

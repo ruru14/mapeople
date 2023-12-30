@@ -20,6 +20,10 @@ const SearchSingle = () => {
 
     const [ocid, setOcid] = React.useState()
     const [unionDetailInfo, setUnionDetailInfo] = React.useState([])
+
+    const getDate = () => {
+        return dayjs().subtract(1, 'day').subtract(2, 'hour').format("YYYY-MM-DD")
+    }
     
     const getOcid = (charName) => {
         console.log(`${process.env.GATSBY_NEXON_API_BASE_URL}`)
@@ -41,8 +45,7 @@ const SearchSingle = () => {
     const [unionInfo, setUnionInfo] = React.useState(null)
     
     const getUnionInfo = (charOcid) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/union?ocid=`+charOcid+`&date=`+formatDate, 
             {headers: {
                 "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
@@ -61,8 +64,7 @@ const SearchSingle = () => {
     }
 
     const getUnionDetailInfoSingle = (unionInfo) =>{
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         axios.get(
             `${process.env.GATSBY_NEXON_API_BASE_URL}`+`id?character_name=`+unionInfo.character_name, 
             {headers: {
@@ -94,8 +96,7 @@ const SearchSingle = () => {
     }
 
     const getUnionDetailInfo = (unionInfoArr) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         axios.all(
             unionInfoArr.ranking.map((elm)=>axios.get(
                 `${process.env.GATSBY_NEXON_API_BASE_URL}`+`id?character_name=`+elm.character_name, 
@@ -121,8 +122,7 @@ const SearchSingle = () => {
     }
 
     const getBasicInfo = (charOcid) => {
-        let date = dayjs()
-        const formatDate = date.subtract(1, 'day').format("YYYY-MM-DD")
+        const formatDate = getDate()
         axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`character/basic?ocid=`+charOcid+`&date=`+formatDate, 
             {headers: {
                 "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
