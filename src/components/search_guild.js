@@ -10,8 +10,8 @@ const SearchGuild = () => {
     const [inputText, setInputText] = React.useState('')
     const [searchGuild, setSearchGuild] = React.useState('')
     const [visible, setVisible] = React.useState(false)
-    const worldList = [`스카니아`, `베라`, `루나`, `제니스`, `크로아`, `유니온`, `엘리시움`, `이노시스`, `레드`, `오로라`, `아케인`, `노바`, `리부트`, `리부트2`, `버닝`, `버닝2`, `버닝3`]
-    const [selectWorld, setSelectWorld] = React.useState(worldList[0])
+    const [selectWorld, setSelectWorld] = React.useState('')
+    const [searchWorld, setSearchWorld] = React.useState('')
     const [oguildId, setOguildId] = React.useState(null)
     const [guildMemberName, setGuildMemberName] = React.useState([])
     const [guildMemberOcid, setGuildMemberOcid] = React.useState([])
@@ -20,6 +20,8 @@ const SearchGuild = () => {
 
     const [testGuildMember, setTestGuildMember] = React.useState([])
     const [testObj, setTestObj] = React.useState([])
+
+    const [searchFail, setSearchFail] = React.useState(false)
 
     const getDate = () => {
         return dayjs().subtract(1, 'day').subtract(2, 'hour').format("YYYY-MM-DD")
@@ -44,6 +46,7 @@ const SearchGuild = () => {
             setOguildId(response.data.oguild_id)
             getGuildBasicInfo(response.data.oguild_id)
         }).catch(error=>{
+            setSearchFail(true)
             //console.log('Error!')
         })
     }
@@ -62,6 +65,7 @@ const SearchGuild = () => {
             //getGuildMemberOcid(response.data.guild_member)
             fukcingAPI(response.data.guild_member)
         }).catch(e=>{
+            setSearchFail(true)
             //console.log('Error!')
             //console.log(e)
         })
@@ -354,12 +358,14 @@ const SearchGuild = () => {
 
     const onClickSearch = () => {
         setVisible(true)
+        setSearchFail(false)
         setGuildMemberOcid([])
         setGuildMemberBasicInfo([])
         setGuildMemberOriginInfo([])
         //console.log("BtnInput : "+selectWorld +", "+inputText)
         setSearchGuild(inputText)
-        getOguildId(inputText, selectWorld)
+        setSearchWorld(selectWorld)
+        getOguildId(inputText)
     
         setInputText("")
     }
@@ -377,16 +383,18 @@ const SearchGuild = () => {
                 value={inputText}
                 onClick={onClickSearch}
                 selectVisible={true}
-                selectList={worldList}
                 selectWorld={selectWorld}
                 setSelectWorld={setSelectWorld}
             />
             {visible&&
                 <div>
                     <div  className={styles.output}>
-                        길드 {`[`}{searchGuild}{`]`}의 조회 결과입니다.<br/>
+                    {`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 조회 결과입니다.<br/>
                         접속 기록이 존재하지 않는 캐릭터는 검색되지 않습니다.<br/><br/>
+                        {searchFail? `검색 결과가 존재하지 않거나, 입력이 올바르지 않습니다.` : ``}<br/><br/>
+
                     </div>
+
                     {guildMemberBasicInfo? 
                         guildMemberBasicInfo.map((elm, idx)=>(
                             <CharacterSlotGuildResult key={elm} characterInfoGuild={elm} characterInfoOrigin={guildMemberOriginInfo[idx]}/>

@@ -11,11 +11,15 @@
 .contents {
     display: flex;
     max-width: 1000px;
-    height: 65%;
+    height: 80%;
     margin: 0 auto;
+    /* margin-top: 5px; */
     align-items: center;
     justify-content: space-around;
-    font-size: 20px;
+    font-size: 22px;
+
+    border-spacing: 10px;
+    border-collapse: separate;
 }
 
 .navigation {

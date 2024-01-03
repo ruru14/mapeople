@@ -3,22 +3,27 @@ import { Link, useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
-import SerachSingle from "../components/search_single"
+import SerachGuild from "../components/search_guild"
 import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
 
 import axios from 'axios'
 
-const IndexPage = () => {
+const RankingEntirePage = () => {
   return(  
   <Layout>
     <div>
-      <SerachSingle></SerachSingle>
+
     </div>
   </Layout>
   )
 }
 
-export const Head = () => <Seo title="메이피플 (일반)" />
+/**
+ * Head export to define metadata for the page
+ *
+ * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
+ */
+export const Head = () => <Seo title="메이피플 (수로 : 전체)" />
 
-export default IndexPage
+export default RankingEntirePage

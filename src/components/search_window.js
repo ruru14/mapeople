@@ -12,8 +12,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import * as styles from "../components/search_window.module.css"
 
-const SearchWindow = ({ placeholder, value, onChange, onClick, selectList, selectVisible, selectWorld, setSelectWorld }) => {
-
+const SearchWindow = ({ placeholder, value, onChange, onClick, selectVisible, selectWorld, setSelectWorld }) => {
+    const worldList = [`스카니아`, `베라`, `루나`, `제니스`, `크로아`, `유니온`, `엘리시움`, `이노시스`, `레드`, `오로라`, `아케인`, `노바`, `리부트`, `리부트2`, `버닝`, `버닝2`, `버닝3`]
+    
     return(
         <div className={styles.input}>
             <Form onSubmit={(e) => e.preventDefault()}>
@@ -21,7 +22,8 @@ const SearchWindow = ({ placeholder, value, onChange, onClick, selectList, selec
                 {selectVisible? 
                 <Col>
                 <Form.Select onChange={(e)=>{setSelectWorld(e.target.value)}}  value={selectWorld}>
-                    {selectList? selectList.map((elm, idx)=>(
+                    <option key={'월드'} selected hidden>월드</option>
+                    {worldList? worldList.map((elm, idx)=>(
                         <option key={elm}>{elm}</option>
                     )) : ''}
                 </Form.Select>
@@ -39,7 +41,7 @@ const SearchWindow = ({ placeholder, value, onChange, onClick, selectList, selec
                     />
                 </Col>
                 <Col xs="auto">
-                    <Button onClick={onClick} type="submit">찾기</Button>
+                    <Button onClick={onClick} type="submit" disabled={selectWorld===''? true:false}>찾기</Button>
                 </Col>
                 </Row>
             </Form>
