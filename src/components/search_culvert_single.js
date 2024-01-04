@@ -76,7 +76,7 @@ const SearchCulvertSingle = () => {
         
         Promise.allSettled(
             dayArr.map((elm)=>
-                axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/guild?ranking_type=`+`2`+`&date=`+elm+`&guild_name=`+inputText, 
+                axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/guild?ranking_type=`+`2`+`&date=`+elm+`&guild_name=`+inputText+`&world_name=`+selectWorld, 
                         {headers: {
                             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
         }}))).then((res)=>{
