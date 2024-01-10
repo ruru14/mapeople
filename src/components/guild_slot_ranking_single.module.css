@@ -1,0 +1,21 @@
+.slot {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    outline: auto;
+    min-width: 700px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.image {
+    width: 120px;
+    background-color: rgba(197, 219, 146, 0.493)
+}
+
+.table_head {
+    min-width: 400px;
+    background-color: #ffffff00;
+}
+
+.table_info {
+    min-width: 210px;
+}

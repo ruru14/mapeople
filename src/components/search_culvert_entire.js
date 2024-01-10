@@ -6,12 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import GuildSlotRankingSingle from "./guild_slot_ranking_single"
+import CharacterSlotBasic from "./character_slot_basic"
 import SearchWindow from "./search_window"
 import * as styles from "../components/search_culvert_single.module.css"
 import dayjs from "dayjs";
 
-const SearchCulvertSingle = () => {
+const SearchCulvertEntire = () => {
     const [inputText, setInputText] = React.useState('')
     const [searchGuild, setSearchGuild] = React.useState('')
     const [searchWorld, setSearchWorld] = React.useState('')
@@ -20,7 +20,6 @@ const SearchCulvertSingle = () => {
     //const worldList = [`스카니아`, `베라`, `루나`, `제니스`, `크로아`, `유니온`, `엘리시움`, `이노시스`, `레드`, `오로라`, `아케인`, `노바`, `리부트`, `리부트2`, `버닝`, `버닝2`, `버닝3`]
     const [selectWorld, setSelectWorld] = React.useState('')
     const [culvertRankingList, setCulvertRankingList] = React.useState([])
-    const [entireGuildRanking, setEntireGuildRanking] = React.useState({})
     
     const [searchFail, setSearchFail] = React.useState(false)
 
@@ -60,7 +59,7 @@ const SearchCulvertSingle = () => {
         })
     }
 
-    const getGuildCulvertRanking = async () => {
+    const getGuildCulvertRanking = () => {
         var startDate = getStartDate()
         const curDate = getDate()
         const dayArr = []
@@ -74,7 +73,7 @@ const SearchCulvertSingle = () => {
         // dayArr.map((elm,idx)=>{
         //     console.log(elm)
         // })
-
+        
         Promise.allSettled(
             dayArr.map((elm)=>
                 axios.get(`${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/guild?ranking_type=`+`2`+`&date=`+elm+`&guild_name=`+inputText+`&world_name=`+selectWorld, 
@@ -83,53 +82,29 @@ const SearchCulvertSingle = () => {
         }}))).then((res)=>{
             let foo = []
             res.map((elm, idx)=>{
-                const bar = "asdf"
+                //console.log(elm)
                 const guild_result = {}
                 const tmpDate = dayjs(dayArr[idx])
-                getAllGuildRanking(dayArr[idx])
-                guild_result.date = dayArr[idx]
+                guild_result.date = tmpDate
                 guild_result.calc_date_start = tmpDate.subtract(7, 'day').format("YYYY-MM-DD")
                 guild_result.calc_date_end = tmpDate.subtract(1, 'day').format("YYYY-MM-DD")
-                guild_result.guild_point = elm.value.data.ranking[0]? elm.value.data.ranking[0].guild_point : 0
-                guild_result.ranking = elm.value.data.ranking[0]? elm.value.data.ranking[0].ranking : -1
-                guild_result[bar] = "bbbb"
+                guild_result.guild_point = elm.value.data.ranking[0].guild_point
+                guild_result.ranking = elm.value.data.ranking[0].ranking
                 foo.push(guild_result)
             })
             setCulvertRankingList(foo)
         }).finally(()=>{
-            console.log("Finish!")
+            //console.log("Finish!")
         })
     }
 
-    const getAllGuildRanking = async (dateString) => {
-        console.log(dateString)
-        let cnt = 1
-        let rankingList = []
-        let result = {}
-        do{
-            result = await axios.get(
-                `${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/guild?ranking_type=`+`2`+`&date=`+dateString+`&world_name=`+selectWorld+`&page=`+cnt++, 
-                    {headers: {
-                        "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-            }})
-            rankingList.push(...result.data.ranking)
-        } while(result.data.ranking.length != 0)
-        
-        setEntireGuildRanking(entireGuildRanking => ({...entireGuildRanking, [dateString]:rankingList}))
-        //console.log(entireGuildRanking)
-        //result.push(...tmp.data.ranking)
-        //console.log(result.length)
-        //console.log(result)
-
-        // while(result.length < 200) {
-        //     result = Promise.get(`api call?page=`+cnt++)
-        // }
-        /* ... */
-    }
-
-    React.useEffect(()=>{
-        //console.log(entireGuildRanking)
-    },[entireGuildRanking])
+    // React.useEffect(()=>{
+    //     if(culvertRankingList){
+    //         setCulvertRankingList(culvertRankingList.sort((a, b)=>{
+    //             return a.date.diff(b.date)
+    //         }))
+    //     }
+    // },[culvertRankingList])
 
     const onClickSearch = () => {
         setVisible(true)
@@ -168,11 +143,7 @@ const SearchCulvertSingle = () => {
                     {`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 수로 점수 조회 결과입니다.<br/><br/>
                     </div>
                     {culvertRankingList.map((elm, idx)=>(
-                        <div>
-                            <GuildSlotRankingSingle guildRankingInfo={elm} entireRankingInfo={entireGuildRanking[elm.date]}></GuildSlotRankingSingle>
-                            {culvertRankingList.length-1 != idx ? <hr/> : ''}
-                        </div>
-                        //<div className={styles.output}>{elm.calc_date_start} ~ {elm.calc_date_end} : {elm.guild_point} 점</div>
+                        <div className={styles.output}>{elm.calc_date_start} ~ {elm.calc_date_end} : {elm.guild_point} 점</div>
                     ))}
                     
                     <br/><br/>
@@ -182,4 +153,4 @@ const SearchCulvertSingle = () => {
     )
 }
 
-export default SearchCulvertSingle
+export default SearchCulvertEntire

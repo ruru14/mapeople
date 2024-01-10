@@ -1,6 +1,7 @@
 import * as React from "react"
 import axios from 'axios'
 
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import SearchWindow from "./search_window"
 import CharacterSlotGuildResult from "./character_slot_guild_result"
 import * as styles from "../components/search_guild.module.css"
@@ -22,6 +23,7 @@ const SearchGuild = () => {
     const [testObj, setTestObj] = React.useState([])
 
     const [searchFail, setSearchFail] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
 
     const getDate = () => {
         return dayjs().subtract(1, 'day').subtract(2, 'hour').format("YYYY-MM-DD")
@@ -60,7 +62,7 @@ const SearchGuild = () => {
             //console.log("getGuildBasicInfo::Success")
             //setTestGuildMember(testGuildMember => [...testGuildMember,response.data.guild_member])
             //testGetOcid(response.data.guild_member)
-            //setGuildMemberName(response.data.guild_member)
+            setGuildMemberName(response.data.guild_member)
 
             //getGuildMemberOcid(response.data.guild_member)
             fukcingAPI(response.data.guild_member)
@@ -144,58 +146,9 @@ const SearchGuild = () => {
                 }, 500); 
                 await insertData(memberBasicInfo.data, unionBasicInfo.data)
             }
-
         }
-        
-        // nameArr.map(async (elm, idx)=>{
-        //     let flag = false
-        //     let unionCharName
-        //     let memberOcid = { data: { ocid:"Invalid" }}
-        //     memberOcid = await axios.get(
-        //         `${process.env.GATSBY_NEXON_API_BASE_URL}`+`id?character_name=`+elm, 
-        //         {headers: {
-        //             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-        //     }}).catch(e=>{
-        //         flag = true
-        //     })
-        //     //if(!flag) memberOcid.data.ocid = "Invalid"
-        //     const memberBasicInfo = await axios.get(
-        //         `${process.env.GATSBY_NEXON_API_BASE_URL}`+`character/basic?ocid=`+memberOcid.data.ocid+`&date=`+formatDate, 
-        //         {headers: {
-        //             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-        //     }}).catch(e=>{
-        //         flag = true
-        //     })
-        //     const memberUnionInfo = await axios.get(
-        //         `${process.env.GATSBY_NEXON_API_BASE_URL}`+`ranking/union?ocid=`+memberOcid.data.ocid+`&date=`+formatDate, 
-        //         {headers: {
-        //             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-        //     }}).catch(e=>{
-        //         flag = true
-        //     })
-        //     if(!flag){
-        //         memberUnionInfo.data.ranking.map(async (data)=>{
-        //             if(data.world_name === selectWorld) unionCharName = data.character_name
-        //         })
-        //     }
-        //     const unionOcid = await axios.get(
-        //         `${process.env.GATSBY_NEXON_API_BASE_URL}`+`id?character_name=`+unionCharName, 
-        //         {headers: {
-        //             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-        //     }}).catch(e=>{
-        //         flag = true
-        //     })
-        //     const unionBasicInfo = await axios.get(
-        //         `${process.env.GATSBY_NEXON_API_BASE_URL}`+`character/basic?ocid=`+unionOcid.data.ocid+`&date=`+formatDate, 
-        //         {headers: {
-        //             "x-nxopen-api-key":process.env.GATSBY_NEXON_API_KEY
-        //     }}).catch(e=>{
-        //         flag = true
-        //     })
 
-        //     if(!flag) console.log(unionBasicInfo)
-            
-        // })
+        setIsLoading(false)
     }
 
     const insertData = async (basicInfo, originInfo) => {
@@ -366,6 +319,7 @@ const SearchGuild = () => {
         setSearchGuild(inputText)
         setSearchWorld(selectWorld)
         getOguildId(inputText)
+        setIsLoading(true)
     
         setInputText("")
     }
@@ -388,8 +342,11 @@ const SearchGuild = () => {
             />
             {visible&&
                 <div>
-                    <div  className={styles.output}>
-                    {`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 조회 결과입니다.<br/>
+                    <div className={styles.output}>
+                        {isLoading? 
+                            <div><ProgressBar now={(guildMemberBasicInfo?.length/guildMemberName?.length)*100} label={`${Math.floor((guildMemberBasicInfo?.length/guildMemberName?.length)*100)}%`} />{`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}을 조회중입니다... {`[`}{guildMemberBasicInfo?.length}/{guildMemberName?.length}{`]`}</div> :
+                            <div><br/>{`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 조회 결과입니다.<br/></div>
+                        }
                         접속 기록이 존재하지 않는 캐릭터는 검색되지 않습니다.<br/><br/>
                         {searchFail? `검색 결과가 존재하지 않거나, 입력이 올바르지 않습니다.` : ``}<br/><br/>
 
