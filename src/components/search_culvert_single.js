@@ -26,8 +26,10 @@ const SearchCulvertSingle = () => {
 
     // API start date = 2023-12-21
     // Return first monday = 2023-12-25
+    // New start date = 2024-05-23
     const getStartDate = () => {
-        return dayjs('2023-12-25')
+        //return dayjs('2023-12-25')
+        return dayjs('2024-06-06')
     }
     
     const getDate = () => {
@@ -64,6 +66,14 @@ const SearchCulvertSingle = () => {
         var startDate = getStartDate()
         const curDate = getDate()
         const dayArr = []
+
+        /*
+        길드 시스템 개편 날짜와 동기화가 되지 않음
+        개편 첫 주차는 목요일이 아닌 수요일로 값을 받아와야 정상적임
+        API 오류로 추정
+        */
+        var addStartDate = dayjs('2024-05-29').format("YYYY-MM-DD")
+        dayArr.push(addStartDate)
         do {
             // 날짜 정리
             const dateString = startDate.format("YYYY-MM-DD")
@@ -87,13 +97,22 @@ const SearchCulvertSingle = () => {
                 const guild_result = {}
                 const tmpDate = dayjs(dayArr[idx])
                 getAllGuildRanking(dayArr[idx])
+                /*
+                개편 첫 주차에 대한 예외처리
+                */
+                if(idx == 0){
+                    guild_result.calc_date_start = tmpDate.subtract(6, 'day').format("YYYY-MM-DD")
+                    guild_result.calc_date_end = tmpDate.subtract(0, 'day').format("YYYY-MM-DD")
+                }else{
+                    guild_result.calc_date_start = tmpDate.subtract(7, 'day').format("YYYY-MM-DD")
+                    guild_result.calc_date_end = tmpDate.subtract(1, 'day').format("YYYY-MM-DD")
+                }
                 guild_result.date = dayArr[idx]
-                guild_result.calc_date_start = tmpDate.subtract(7, 'day').format("YYYY-MM-DD")
-                guild_result.calc_date_end = tmpDate.subtract(1, 'day').format("YYYY-MM-DD")
                 guild_result.guild_point = elm.value.data.ranking[0]? elm.value.data.ranking[0].guild_point : 0
                 guild_result.ranking = elm.value.data.ranking[0]? elm.value.data.ranking[0].ranking : -1
                 guild_result[bar] = "bbbb"
                 foo.push(guild_result)
+                //console.log(elm.value.data.ranking[0].date)
             })
             setCulvertRankingList(foo)
         }).finally(()=>{
@@ -162,10 +181,14 @@ const SearchCulvertSingle = () => {
                 selectWorld={selectWorld}
                 setSelectWorld={setSelectWorld}
             />
+            {/* <div className={styles.output}>
+            2024. 05. 23 길드 개편 정보가 반영되었습니다.<br/>
+            </div> */}
             {visible&&
                 <div>
                     <div className={styles.output}>
-                    {`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 수로 점수 조회 결과입니다.<br/><br/>
+                    {`[`}{searchWorld}{`]`}월드의 길드 {`[`}{searchGuild}{`]`}의 수로 점수 조회 결과입니다.<br/>
+                    <br/>
                     </div>
                     {culvertRankingList.map((elm, idx)=>(
                         <div>

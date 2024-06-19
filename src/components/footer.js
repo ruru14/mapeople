@@ -13,8 +13,9 @@ const Footer = ({ siteTitle }) => {
             <div>
                 <p className={styles.title}>{siteTitle}</p>
                 <p className={styles.copyright}>
-                    © {new Date().getFullYear()} &middot; <a href="https://github.com/ruru14">리부트@유이당</a> All Rights Reserved<br/>
-                    Data based on NEXON Open API<br/>
+                  current version 1.01<br/>
+                  © {new Date().getFullYear()} &middot; <a href="https://github.com/ruru14">리부트@유이당</a> All Rights Reserved<br/>
+                  Data based on NEXON Open API<br/>
                 </p>
             </div>
         </div>

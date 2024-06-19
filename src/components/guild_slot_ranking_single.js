@@ -17,13 +17,13 @@ const GuildSlotRankingSingle = ({ guildRankingInfo, entireRankingInfo }) => {
 
         if(percentage <=5 ) return 29
         else if(percentage > 5 && percentage <= 10) return 27
-        else if(percentage > 10 && percentage <= 15) return 25
-        else if(percentage > 15 && percentage <= 20) return 23
-        else if(percentage > 20 && percentage <= 25) return 21
-        else if(percentage > 25 && percentage <= 30) return 19
-        else if(percentage > 30 && percentage <= 40) return 17
-        else if(percentage > 40 && percentage <= 60) return 15
-        else if(percentage > 60 && percentage <= 80) return 13
+        else if((percentage > 10 && percentage <= 15) || guildRankingInfo.guild_point >= 60000) return 25
+        else if((percentage > 15 && percentage <= 20) || guildRankingInfo.guild_point >= 40000) return 23
+        else if((percentage > 20 && percentage <= 25) || guildRankingInfo.guild_point >= 20000) return 21
+        else if((percentage > 25 && percentage <= 30) || guildRankingInfo.guild_point >= 10000) return 19
+        else if((percentage > 30 && percentage <= 40) || guildRankingInfo.guild_point >= 5000) return 17
+        else if((percentage > 40 && percentage <= 60) || guildRankingInfo.guild_point >= 3000) return 15
+        else if((percentage > 60 && percentage <= 80) || guildRankingInfo.guild_point >= 1500) return 13
 
         return 10
     }
@@ -61,7 +61,12 @@ const GuildSlotRankingSingle = ({ guildRankingInfo, entireRankingInfo }) => {
                     </td>
                     <td>
                         {guildRankingInfo.ranking == -1 && entireRankingInfo ? '참여 기록 없음' : 
-                            <div>{guildRankingInfo.ranking} 위 [{Math.floor((guildRankingInfo.ranking/entireRankingInfo?.length)*100)} %] [{Nobless()} P]</div>}
+                            <div>
+                                {guildRankingInfo.ranking} 위 
+                                {guildRankingInfo.ranking <= 10 ? ' ' : ' ['+Math.floor((guildRankingInfo.ranking/entireRankingInfo?.length)*100)+' %] '}
+                                [{Nobless()} P]
+                            </div>
+                        }
                     </td>
                 </tr>
             </tbody>
