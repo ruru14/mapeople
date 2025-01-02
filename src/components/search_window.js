@@ -13,7 +13,7 @@ import Col from 'react-bootstrap/Col';
 import * as styles from "../components/search_window.module.css"
 
 const SearchWindow = ({ placeholder, value, onChange, onClick, selectVisible, selectWorld, setSelectWorld }) => {
-    const worldList = [`스카니아`, `베라`, `루나`, `제니스`, `크로아`, `유니온`, `엘리시움`, `이노시스`, `레드`, `오로라`, `아케인`, `노바`, `리부트`, `리부트2`, `버닝`, `버닝2`, `버닝3`]
+    const worldList = [`스카니아`, `베라`, `루나`, `제니스`, `크로아`, `유니온`, `엘리시움`, `이노시스`, `레드`, `오로라`, `아케인`, `노바`, `에오스`, `핼리오스`, `챌린저스`, `챌린저스2`, `챌린저스3`, `챌린저스4`]
     
     return(
         <div className={styles.input}>
